@@ -15,7 +15,6 @@ PACKAGES=(
   lazygit
   kubectl
   zoxide
-  powerlevel10k
   git
   curl
   net-tools
@@ -29,9 +28,9 @@ PACKAGES=(
 if [ -f /etc/os-release ]; then
   . /etc/os-release
   case "$ID" in
-  arch)
+  arch | manjaro)
     PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-    PACKAGES+=(fd nerd-fonts-jetbrains-mono docker docker-compose)
+    PACKAGES+=(yay fd docker docker-compose)
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
@@ -72,6 +71,7 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   echo "Enabling Docker service..."
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
+  sudo chmod 666 /var/run/docker.sock
 fi
 
 # Install Oh My Zsh if not already installed
@@ -111,7 +111,7 @@ FONT_NAME="JetBrainsMono Nerd Font"
 echo "Checking if $FONT_NAME is installed..."
 if ! fc-list | grep -qi "$FONT_NAME"; then
   echo "$FONT_NAME not found, installing..."
-  $PACKAGE_MANAGER fonts-jetbrains-mono
+  $PACKAGE_MANAGER ttf-nerd-fonts
 else
   echo "$FONT_NAME is already installed."
 fi
