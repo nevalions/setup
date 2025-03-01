@@ -126,32 +126,36 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 fi
 
-# Set Zsh as the default shell
-echo "Setting Zsh as the default shell..."
-chsh -s $(which zsh)
+# echo "Setting Zsh as the default shell..."
+# chsh -s $(which zsh)
 
-# Install Powerlevel10k if not already installed
 P10K_DIR="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
 if [ ! -d "$P10K_DIR" ]; then
   echo "Installing Powerlevel10k..."
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
 fi
 
-# Install atuin if not already installed
 if [ ! -f "$HOME/.atuin/bin/env" ]; then
   echo "Installing Atuin..."
   bash <(curl https://raw.githubusercontent.com/ellie/atuin/main/install.sh)
 fi
 
-# Install Zsh plugins
 echo "Installing Zsh plugins..."
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
-git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting
+# Check and clone plugins only if they are not already installed
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+fi
 
-# Check and configure JetBrainsMono Nerd Font
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/fast-syntax-highlighting" ]; then
+  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git $ZSH_CUSTOM/plugins/fast-syntax-highlighting
+fi
+
 FONT_NAME="JetBrainsMono Nerd Font"
 echo "Checking if $FONT_NAME is installed..."
 if ! fc-list | grep -qi "$FONT_NAME"; then
