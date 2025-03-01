@@ -11,8 +11,7 @@ PACKAGES=(
   zsh
   fzf
   tree
-  exa
-  lazygit
+  eza
   kubectl
   zoxide
   git
@@ -31,7 +30,7 @@ if [ -f /etc/os-release ]; then
   case "$ID" in
   arch | manjaro)
     PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-    PACKAGES+=(yay fd docker docker-compose)
+    PACKAGES+=(yay fd lazygit docker docker-compose)
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
@@ -83,6 +82,12 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   sudo systemctl enable --now docker
   sudo usermod -aG docker $USER
   sudo chmod 666 /var/run/docker.sock
+
+  echo "Installing lazygit"
+  LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+  tar xf lazygit.tar.gz lazygit
+  sudo install lazygit -D -t /usr/local/bin/
 fi
 
 # Install Oh My Zsh if not already installed
