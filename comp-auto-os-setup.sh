@@ -110,6 +110,15 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
 
 fi
 
+#Remove .tmux and install tpm
+echo "Remove .tmux"
+if ["$HOME/.tmux.conf"]; then
+  rm -rf .tmux.conf
+fi
+if [! -d "$HOME/.tmux/plugins/tpm/"]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 # Install Oh My Zsh if not already installed
 echo "Checking if Oh My Zsh is installed..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
