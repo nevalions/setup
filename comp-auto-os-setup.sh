@@ -22,6 +22,7 @@ PACKAGES=(
   unzip
   ca-certificates
   gnupg
+  stow
 )
 
 # Detect OS and set package manager
