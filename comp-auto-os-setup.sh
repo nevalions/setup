@@ -5,7 +5,6 @@ set -e # Exit immediately if a command exits with a non-zero status
 # Define package list
 PACKAGES=(
   alacritty
-  atuin
   neovim
   tmux
   zsh
@@ -30,7 +29,7 @@ if [ -f /etc/os-release ]; then
   case "$ID" in
   arch | manjaro)
     PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-    PACKAGES+=(yay fd lazygit docker docker-compose)
+    PACKAGES+=(atuin yay fd lazygit docker docker-compose)
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
@@ -88,6 +87,22 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
   tar xf lazygit.tar.gz lazygit
   sudo install lazygit -D -t /usr/local/bin/
+
+  echo "Install Rust and Cargo (if not already installed)"
+  if ! command -v cargo &>/dev/null; then
+    echo "Installing Rust and Cargo..."
+    # Install rust (which includes Cargo)
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    # Add Rust to the PATH (if not already done by the rustup installation)
+    source $HOME/.cargo/env
+  fi
+
+  echo "Install Atuin using Cargo"
+  if ! command -v atuin &>/dev/null; then
+    echo "Installing Atuin via Cargo..."
+    cargo install atuin
+  fi
+
 fi
 
 # Install Oh My Zsh if not already installed
