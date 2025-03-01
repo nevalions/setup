@@ -51,7 +51,17 @@ fi
 
 # Update the system
 echo "Updating system..."
-$UPDATE_CMD
+if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
+  # Ubuntu/Debian
+  sudo apt update
+  sudo apt upgrade -y
+elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
+  # Arch/Manjaro
+  sudo pacman -Syu --noconfirm
+else
+  echo "Unsupported OS"
+  exit 1
+fi
 
 # Install necessary packages
 echo "Installing packages..."
