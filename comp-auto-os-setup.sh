@@ -51,7 +51,7 @@ echo "Updating system..."
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   # Ubuntu/Debian
   sudo apt update
-  sudo apt upgrade -y
+  sudo apt upgrade
 elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
   # Arch/Manjaro
   sudo pacman -Syu --noconfirm
