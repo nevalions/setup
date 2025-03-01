@@ -67,6 +67,9 @@ $PACKAGE_MANAGER "${PACKAGES[@]}"
 
 # Install Docker & Docker Compose on Ubuntu/Debian
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
+  sudo apt update
+  sudo apt install -y build-essential
+
   echo "Setting up Docker repository..."
   sudo install -m 0755 -d /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/$ID/gpg | sudo tee /etc/apt/keyrings/docker.asc >/dev/null
@@ -92,7 +95,7 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   if ! command -v cargo &>/dev/null; then
     echo "Installing Rust and Cargo..."
     # Install rust (which includes Cargo)
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     # Add Rust to the PATH (if not already done by the rustup installation)
     source $HOME/.cargo/env
   fi
