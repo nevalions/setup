@@ -107,15 +107,15 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
     echo "Installing Atuin via Cargo..."
     cargo install atuin
   fi
-
 fi
 
-#Remove .tmux and install tpm
-echo "Remove .tmux"
-if ["$HOME/.tmux.conf"]; then
-  rm $HOME/.tmux.conf
+echo "Removing .tmux.conf if it exists"
+if [ -f "$HOME/.tmux.conf" ]; then
+  rm "$HOME/.tmux.conf"
 fi
-if [! -d "$HOME/.tmux/plugins/tpm/"]; then
+
+echo "Installing TPM if not already installed"
+if [ ! -d "$HOME/.tmux/plugins/tpm/" ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
