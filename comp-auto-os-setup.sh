@@ -32,7 +32,7 @@ if [ -f /etc/os-release ]; then
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
-    PACKAGE_MANAGER="sudo apt install -y"
+    PACKAGE_MANAGER="sudo apt install"
     PACKAGES+=(fd-find fonts-jetbrains-mono)
     UPDATE_CMD="sudo apt update -y"
     ;;
@@ -67,7 +67,7 @@ $PACKAGE_MANAGER "${PACKAGES[@]}"
 # Install Docker & Docker Compose on Ubuntu/Debian
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   sudo apt update
-  sudo apt install -y build-essential
+  sudo apt install build-essential
 
   echo "Setting up Docker repository..."
   sudo install -m 0755 -d /etc/apt/keyrings
