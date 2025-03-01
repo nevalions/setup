@@ -34,7 +34,7 @@ if [ -f /etc/os-release ]; then
   ubuntu | debian)
     PACKAGE_MANAGER="sudo apt install -y"
     PACKAGES+=(fd-find fonts-jetbrains-mono)
-    UPDATE_CMD="sudo apt update && sudo apt upgrade -y"
+    UPDATE_CMD="sudo apt update && sudo apt upgrade -y --ignore-hold"
     ;;
   *)
     echo "Unsupported OS"
@@ -51,7 +51,7 @@ echo "Updating system..."
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   # Ubuntu/Debian
   sudo apt update
-  sudo apt upgrade -y
+  sudo apt upgrade -y --ignore-hold
 elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
   # Arch/Manjaro
   sudo pacman -Syu --noconfirm
@@ -113,7 +113,7 @@ fi
 #Remove .tmux and install tpm
 echo "Remove .tmux"
 if ["$HOME/.tmux.conf"]; then
-  rm -rf .tmux.conf
+  rm $HOME/.tmux.conf
 fi
 if [! -d "$HOME/.tmux/plugins/tpm/"]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -125,9 +125,6 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo "Installing Oh My Zsh..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 fi
-
-# echo "Setting Zsh as the default shell..."
-# chsh -s $(which zsh)
 
 P10K_DIR="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
 if [ ! -d "$P10K_DIR" ]; then
@@ -157,21 +154,46 @@ if [ ! -d "$ZSH_CUSTOM/plugins/fast-syntax-highlighting" ]; then
 fi
 
 FONT_NAME="JetBrainsMono Nerd Font"
+FONT_DIR="$HOME/.local/share/fonts"
+
 echo "Checking if $FONT_NAME is installed..."
 if ! fc-list | grep -qi "$FONT_NAME"; then
   echo "$FONT_NAME not found, installing..."
-  if [ -x "$(command -v apt)" ]; then
-    sudo apt install fonts-font-awesome fonts-powerline
-  elif [ -x "$(command -v pacman)" ]; then
-    sudo pacman -S nerd-fonts-complete
-  elif [ -x "$(command -v dnf)" ]; then
-    sudo dnf install nerd-fonts-complete
-  else
-    echo "Package manager not supported for this script."
-  fi
+
+  # Download JetBrainsMono Nerd Font (replace the version number if needed)
+  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip -P /tmp
+
+  # Unzip the font to the font directory
+  mkdir -p $FONT_DIR
+  unzip /tmp/JetBrainsMono.zip -d $FONT_DIR
+
+  # Clean up the zip file
+  rm /tmp/JetBrainsMono.zip
+
+  # Update font cache
+  fc-cache -fv
+
+  echo "$FONT_NAME installed successfully."
 else
   echo "$FONT_NAME is already installed."
 fi
+
+# FONT_NAME="JetBrainsMono Nerd Font"
+# echo "Checking if $FONT_NAME is installed..."
+# if ! fc-list | grep -qi "$FONT_NAME"; then
+#   echo "$FONT_NAME not found, installing..."
+#   if [ -x "$(command -v apt)" ]; then
+#     sudo apt install fonts-font-awesome fonts-powerline
+#   elif [ -x "$(command -v pacman)" ]; then
+#     sudo pacman -S nerd-fonts-complete
+#   elif [ -x "$(command -v dnf)" ]; then
+#     sudo dnf install nerd-fonts-complete
+#   else
+#     echo "Package manager not supported for this script."
+#   fi
+# else
+#   echo "$FONT_NAME is already installed."
+# fi
 
 # FONT_NAME="JetBrainsMono Nerd Font"
 # echo "Checking if $FONT_NAME is installed..."
