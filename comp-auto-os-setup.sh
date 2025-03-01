@@ -34,7 +34,7 @@ if [ -f /etc/os-release ]; then
   ubuntu | debian)
     PACKAGE_MANAGER="sudo apt install -y"
     PACKAGES+=(fd-find fonts-jetbrains-mono)
-    UPDATE_CMD="sudo apt update && sudo apt upgrade -y"
+    UPDATE_CMD="sudo apt update -y"
     ;;
   *)
     echo "Unsupported OS"
