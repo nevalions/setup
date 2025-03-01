@@ -34,7 +34,7 @@ if [ -f /etc/os-release ]; then
   ubuntu | debian)
     PACKAGE_MANAGER="sudo apt install -y"
     PACKAGES+=(fd-find fonts-jetbrains-mono)
-    UPDATE_CMD="sudo apt update && sudo apt upgrade -y --ignore-hold"
+    UPDATE_CMD="sudo apt update && sudo apt upgrade -y"
     ;;
   *)
     echo "Unsupported OS"
@@ -51,7 +51,7 @@ echo "Updating system..."
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   # Ubuntu/Debian
   sudo apt update
-  sudo apt upgrade -y --ignore-hold
+  sudo apt upgrade -y
 elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
   # Arch/Manjaro
   sudo pacman -Syu --noconfirm
