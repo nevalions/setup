@@ -10,7 +10,6 @@ PACKAGES=(
   fzf
   tree
   eza
-  kubectl
   zoxide
   git
   curl
