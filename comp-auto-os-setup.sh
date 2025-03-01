@@ -4,7 +4,6 @@ set -e # Exit immediately if a command exits with a non-zero status
 
 # Define package list
 PACKAGES=(
-  alacritty
   neovim
   tmux
   zsh
@@ -29,7 +28,7 @@ if [ -f /etc/os-release ]; then
   case "$ID" in
   arch | manjaro)
     PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-    PACKAGES+=(atuin yay fd lazygit docker docker-compose)
+    PACKAGES+=(alacritty atuin yay fd lazygit docker docker-compose)
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
@@ -90,6 +89,9 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
   tar xf lazygit.tar.gz lazygit
   sudo install lazygit -D -t /usr/local/bin/
+  # Clean up the setup files (tarball and extracted binary)
+  rm -f lazygit.tar.gz lazygit
+  echo "LazyGit installation complete and setup files removed."
 
   echo "Install Rust and Cargo (if not already installed)"
   if ! command -v cargo &>/dev/null; then
