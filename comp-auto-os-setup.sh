@@ -160,9 +160,26 @@ FONT_NAME="JetBrainsMono Nerd Font"
 echo "Checking if $FONT_NAME is installed..."
 if ! fc-list | grep -qi "$FONT_NAME"; then
   echo "$FONT_NAME not found, installing..."
-  $PACKAGE_MANAGER ttf-nerd-fonts
+  if [ -x "$(command -v apt)" ]; then
+    sudo apt install fonts-font-awesome fonts-powerline
+  elif [ -x "$(command -v pacman)" ]; then
+    sudo pacman -S nerd-fonts-complete
+  elif [ -x "$(command -v dnf)" ]; then
+    sudo dnf install nerd-fonts-complete
+  else
+    echo "Package manager not supported for this script."
+  fi
 else
   echo "$FONT_NAME is already installed."
 fi
 
+# FONT_NAME="JetBrainsMono Nerd Font"
+# echo "Checking if $FONT_NAME is installed..."
+# if ! fc-list | grep -qi "$FONT_NAME"; then
+#   echo "$FONT_NAME not found, installing..."
+#   $PACKAGE_MANAGER ttf-nerd-fonts
+# else
+#   echo "$FONT_NAME is already installed."
+# fi
+#
 echo "Setup complete! Restart your terminal or run 'exec zsh' to apply changes."
