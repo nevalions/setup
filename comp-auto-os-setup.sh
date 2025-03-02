@@ -67,7 +67,7 @@ $PACKAGE_MANAGER "${PACKAGES[@]}"
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   sudo apt update -y
   sudo apt upgrade -y
-  sudo apt install build-essential
+  sudo apt install build-essential -y
 
   echo "Setting up Docker repository..."
   sudo install -m 0755 -d /etc/apt/keyrings
