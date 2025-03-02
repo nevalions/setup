@@ -49,8 +49,8 @@ fi
 echo "Updating system..."
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   # Ubuntu/Debian
-  sudo apt update
-  #sudo apt upgrade
+  sudo apt update -y
+  sudo apt upgrade -y
 elif [[ "$ID" == "arch" || "$ID" == "manjaro" ]]; then
   # Arch/Manjaro
   sudo pacman -Syu --noconfirm
@@ -76,7 +76,7 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$ID $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
   echo "Installing Docker and Docker Compose..."
-  sudo apt update
+  sudo apt update -y
   sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   echo "Enabling Docker service..."
