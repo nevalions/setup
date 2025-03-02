@@ -31,7 +31,7 @@ if [ -f /etc/os-release ]; then
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
-    PACKAGE_MANAGER="sudo apt install"
+    PACKAGE_MANAGER="sudo apt install -y"
     PACKAGES+=(fd-find fonts-jetbrains-mono)
     UPDATE_CMD="sudo apt update -y"
     ;;
@@ -65,7 +65,8 @@ $PACKAGE_MANAGER "${PACKAGES[@]}"
 
 # Install Docker & Docker Compose on Ubuntu/Debian
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
-  sudo apt update
+  sudo apt update -y
+  sudo apt upgrade -y
   sudo apt install build-essential
 
   echo "Setting up Docker repository..."
@@ -170,7 +171,7 @@ if ! fc-list | grep -qi "$FONT_NAME"; then
   rm /tmp/JetBrainsMono.zip
 
   # Update font cache
-  fc-cache -fv
+  # fc-cache -fv
 
   echo "$FONT_NAME installed successfully."
 else
