@@ -27,7 +27,7 @@ if [ -f /etc/os-release ]; then
   case "$ID" in
   arch | manjaro)
     PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-    PACKAGES+=(alacritty atuin yay fd lazygit docker docker-compose)
+    PACKAGES+=(alacritty atuin yay fd lazygit docker docker-compose bat)
     UPDATE_CMD="sudo pacman -Syu --noconfirm"
     ;;
   ubuntu | debian)
@@ -65,8 +65,6 @@ $PACKAGE_MANAGER "${PACKAGES[@]}"
 
 # Install Docker & Docker Compose on Ubuntu/Debian
 if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
-  sudo apt update -y
-  sudo apt upgrade -y
   sudo apt install build-essential -y
 
   echo "Setting up Docker repository..."
@@ -107,6 +105,12 @@ if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
     echo "Installing Atuin via Cargo..."
     cargo install atuin
   fi
+
+  if ! command -v bat &>/dev/null; then
+    echo "Installing bat via Cargo"
+    cargo install bat
+    bat cache --build
+  fi
 fi
 
 echo "Removing .tmux.conf if it exists"
@@ -132,10 +136,11 @@ if [ ! -d "$P10K_DIR" ]; then
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
 fi
 
-if [ ! -f "$HOME/.atuin/bin/env" ]; then
-  echo "Installing Atuin..."
-  bash <(curl https://raw.githubusercontent.com/ellie/atuin/main/install.sh)
-fi
+# if [ ! -f "$HOME/.atuin/bin/env" ]; then
+#   echo "Installing Atuin..."
+#   bash <(curl https://raw.githubusercontent.com/ellie/atuin/main/install.sh)
+# fi
+#
 
 echo "Installing Zsh plugins..."
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
