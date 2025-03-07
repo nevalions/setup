@@ -175,13 +175,10 @@ if ! fc-list | grep -qi "$FONT_NAME"; then
 
     # Unzip the font to the font directory
     mkdir -p $FONT_DIR
-    unzip /tmp/JetBrainsMono.zip -d $FONT_DIR
+    unzip -o /tmp/JetBrainsMono.zip -d $FONT_DIR
 
     # Clean up the zip file
     rm /tmp/JetBrainsMono.zip
-
-    # Update font cache
-    # fc-cache -fv
 
     echo "$FONT_NAME installed successfully."
 else
