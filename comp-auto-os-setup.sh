@@ -20,8 +20,6 @@ PACKAGES=(
     gnupg
     stow
     python3
-    python3-pip
-    python3-venv
     nodejs
     npm
 )
@@ -32,7 +30,7 @@ if [ -f /etc/os-release ]; then
     case "$ID" in
     arch | manjaro)
         PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-        PACKAGES+=(alacritty atuin yay fd lazygit docker docker-compose bat)
+        PACKAGES+=(alacritty atuin fd lazygit docker docker-compose bat)
         UPDATE_CMD="sudo pacman -Syu --noconfirm"
         ;;
     ubuntu | debian)
