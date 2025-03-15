@@ -22,6 +22,7 @@ PACKAGES=(
     python3
     nodejs
     npm
+    wget
 )
 
 # Detect OS and set package manager
@@ -30,7 +31,7 @@ if [ -f /etc/os-release ]; then
     case "$ID" in
     arch | manjaro)
         PACKAGE_MANAGER="sudo pacman -S --noconfirm"
-        PACKAGES+=(alacritty atuin fd lazygit docker docker-compose bat)
+        PACKAGES+=(alacritty atuin fd lazygit docker docker-compose bat ttf-jetbrains-mono-nerd)
         UPDATE_CMD="sudo pacman -Syu --noconfirm"
         ;;
     ubuntu | debian)
